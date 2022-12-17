@@ -1,7 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import NotesSlice from './NotesSlice';
+import NoteSlice from './NoteSlice';
+import UserSlice from './UserSlice';
 
 export default combineReducers({
-  NotesSlice
+  NoteSlice,
+  UserSlice
 });

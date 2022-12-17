@@ -1,4 +1,4 @@
-import Home from './Home';
-import Contact from './Contact';
+import LoginRegister from './LoginRegister';
+import Notes from './Notes';
 
-export { Home, Contact };
+export { LoginRegister, Notes };
