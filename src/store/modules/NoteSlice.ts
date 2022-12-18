@@ -1,26 +1,22 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '..';
+import { NoteType } from '../../types';
 
-export interface interfaceName {
-  uid: string;
-  title: string;
-}
-
-const adapter = createEntityAdapter<interfaceName>({
-  selectId: item => item.uid
+const adapter = createEntityAdapter<NoteType>({
+  selectId: item => item.id
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const { selectAll, selectById } = adapter.getSelectors((state: any) => state.NotesSlice);
+export const { selectAll: selectNotes, selectById } = adapter.getSelectors((state: RootState) => state.NoteSlice);
 
 const NotesSlice = createSlice({
   name: 'NotesSlice',
   initialState: adapter.getInitialState(),
   reducers: {
-    addOne: adapter.addOne,
-    addMany: adapter.addMany,
-    updateOne: adapter.updateOne
+    addOneNote: adapter.addOne,
+    addManyNote: adapter.addMany,
+    updateOneNote: adapter.updateOne
   }
 });
 
-export const { addOne, addMany, updateOne } = NotesSlice.actions;
+export const { addOneNote, addManyNote, updateOneNote } = NotesSlice.actions;
 export default NotesSlice.reducer;

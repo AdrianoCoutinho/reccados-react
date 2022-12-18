@@ -1,4 +1,4 @@
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Checkbox } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserType } from '../types';
@@ -12,6 +12,7 @@ const LoginRegister: React.FC = () => {
   const dispatch = useAppDispatch();
   const userData = useAppSelector(state => state.UserSlice);
   const [toSave, setToSave] = useState<boolean>(false);
+  const [logged, setLogged] = useState<boolean>(false);
   const [user, setUser] = useState<UserType>({
     username: '',
     password: '',
@@ -28,15 +29,15 @@ const LoginRegister: React.FC = () => {
   };
 
   const handleRegisterContact = () => {
-    const savedUsers = Object.keys(usersData());
-    const userExists = savedUsers.findIndex(item => item === user.username);
+    const userExists = usersData()[user.username];
+
     if (user.username === '' || user.password === '' || user.repassword === '') {
       return alert('Preencha os campos');
     }
     if (user.password != user.repassword) {
       return alert('As senhas não coincidem');
     }
-    if (userExists != -1) {
+    if (userExists) {
       return alert('este usuário já existe');
     }
 
@@ -47,15 +48,24 @@ const LoginRegister: React.FC = () => {
     };
     dispatch(addOneUser(newUser));
     setToSave(true);
+    return navigate('/');
   };
 
   const handleLoginContact = () => {
     const savedUsers = usersData();
     if (savedUsers[user.username] && savedUsers[user.username].password === user.password) {
+      sessionStorage.setItem('ReccadosLoggedUser', user.username);
+      if (logged) {
+        localStorage.setItem('ReccadosLoggedUser', user.username);
+      }
       return navigate('/notes');
     } else {
       return alert('Usuário ou senha incorretos.');
     }
+  };
+
+  const handleChangeCheckBox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLogged(event.target.checked);
   };
 
   useEffect(() => {
@@ -128,10 +138,8 @@ const LoginRegister: React.FC = () => {
       )}
       {pathName === '/' && (
         <>
-          Não possui conta?
-          <a style={{ color: 'red' }} onClick={() => navigate('/register')}>
-            Registra-se
-          </a>
+          <Checkbox checked={logged} onChange={handleChangeCheckBox} />
+          Manter login?
         </>
       )}
 
@@ -139,6 +147,14 @@ const LoginRegister: React.FC = () => {
       <Button variant="contained" onClick={ValidatContact}>
         {pathName == '/' ? 'Entrar' : 'Registrar'}
       </Button>
+      {pathName === '/' && (
+        <>
+          <br /> Não possui conta?
+          <a style={{ color: 'red' }} onClick={() => navigate('/register')}>
+            Registra-se
+          </a>
+        </>
+      )}
     </React.Fragment>
   );
 };

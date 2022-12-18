@@ -1,3 +1,4 @@
 import UserType from './UserType';
+import NoteType from './NoteType';
 
-export type { UserType };
+export type { UserType, NoteType };
