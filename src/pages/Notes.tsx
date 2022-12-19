@@ -1,19 +1,55 @@
 import { Button, Paper, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DialogAction } from '../components';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { addOneNote, selectNotes } from '../store/modules/NoteSlice';
+import {
+  addManyNote,
+  addOneNote,
+  clearNotes,
+  deleteOneNote,
+  selectNotes,
+  updateOneNote
+} from '../store/modules/NoteSlice';
 import { NoteType } from '../types';
 
 const Notes: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const noteData = useAppSelector(selectNotes);
+  const [save, setSave] = useState<boolean>(false);
+
   const [note, setNote] = useState<NoteType>({
     id: 0,
     detail: '',
     description: ''
   });
 
-  const HandleaddNote = () => {
+  const usersData = () => {
+    return JSON.parse(localStorage.getItem('userData') || '[]');
+  };
+
+  const loggedUser = () => {
+    return localStorage.getItem('ReccadosLoggedUser') || sessionStorage.getItem('ReccadosLoggedUser') || '';
+  };
+
+  useEffect(() => {
+    if (loggedUser() === '') {
+      return navigate('/');
+    }
+    const savedNotes = usersData()[loggedUser()].notes;
+    dispatch(addManyNote(savedNotes));
+  }, []);
+
+  const HandleLogout = () => {
+    localStorage.removeItem('ReccadosLoggedUser');
+    sessionStorage.removeItem('ReccadosLoggedUser');
+    setSave(false);
+    dispatch(clearNotes());
+    navigate('/');
+  };
+
+  const HandleAddNote = () => {
     if (note.detail === '' || note.description === '') {
       return alert('Digite algo nos campos!');
     }
@@ -23,15 +59,35 @@ const Notes: React.FC = () => {
       description: note.description
     };
     dispatch(addOneNote(newNote));
-    setNote({
-      id: 0,
-      detail: '',
-      description: ''
-    });
+    setSave(true);
+  };
+
+  const handleEditConfirm = (noteToEdit: NoteType) => {
+    dispatch(
+      updateOneNote({
+        id: noteToEdit.id,
+        changes: { detail: noteToEdit.detail, description: noteToEdit.description }
+      })
+    );
+    setSave(true);
+  };
+
+  const HandleDeleteNote = (noteID: number) => {
+    dispatch(deleteOneNote(noteID));
+    setSave(true);
   };
 
   useEffect(() => {
-    console.log(noteData);
+    if (save) {
+      const toUpdate = usersData();
+      toUpdate[loggedUser()].notes = noteData;
+      localStorage.setItem('userData', JSON.stringify(toUpdate));
+      setNote({
+        id: 0,
+        detail: '',
+        description: ''
+      });
+    }
   }, [noteData]);
 
   return (
@@ -65,11 +121,19 @@ const Notes: React.FC = () => {
         variant="filled"
       />
       <br />
-      <Button variant="contained" onClick={HandleaddNote}>
+      <Button variant="contained" onClick={HandleAddNote}>
         Save
       </Button>
+      <br />
+      <br />
+      <Button variant="contained" onClick={HandleLogout}>
+        Logout
+      </Button>
+      <br />
+      <br />
+      <Paper sx={{ backgroundColor: '#303030' }}>
+        <br />
 
-      <Paper>
         {noteData.map((item, index) => {
           return (
             <div key={index}>
@@ -80,9 +144,19 @@ const Notes: React.FC = () => {
                 <br />
                 {item.description}
               </p>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  HandleDeleteNote(item.id);
+                }}
+              >
+                DELETE
+              </Button>
+              <DialogAction actionEdit={handleEditConfirm} Note={item} />
             </div>
           );
         })}
+        <br />
       </Paper>
     </React.Fragment>
   );

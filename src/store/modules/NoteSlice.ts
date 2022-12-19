@@ -14,9 +14,11 @@ const NotesSlice = createSlice({
   reducers: {
     addOneNote: adapter.addOne,
     addManyNote: adapter.addMany,
-    updateOneNote: adapter.updateOne
+    updateOneNote: adapter.updateOne,
+    deleteOneNote: adapter.removeOne,
+    clearNotes: adapter.removeAll
   }
 });
 
-export const { addOneNote, addManyNote, updateOneNote } = NotesSlice.actions;
+export const { addOneNote, addManyNote, updateOneNote, clearNotes, deleteOneNote } = NotesSlice.actions;
 export default NotesSlice.reducer;

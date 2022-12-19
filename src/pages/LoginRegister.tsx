@@ -20,6 +20,16 @@ const LoginRegister: React.FC = () => {
     notes: []
   });
 
+  const loggedUser = () => {
+    return localStorage.getItem('ReccadosLoggedUser') || sessionStorage.getItem('ReccadosLoggedUser') || '';
+  };
+
+  useEffect(() => {
+    if (loggedUser() != '') {
+      return navigate('/notes');
+    }
+  }, []);
+
   const usersData = () => {
     return JSON.parse(localStorage.getItem('userData') || '{}');
   };
@@ -76,7 +86,6 @@ const LoginRegister: React.FC = () => {
 
   useEffect(() => {
     if (toSave) {
-      console.log(userData.entities);
       localStorage.setItem('userData', JSON.stringify(userData.entities));
     }
   }, [userData]);
