@@ -10,19 +10,22 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { NoteType } from '../types';
 import NoteProps from '../types/NoteProps';
 
-const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit }) => {
+const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) => {
   const [open, setOpen] = React.useState(false);
-  const [noteToEdit, setNoteToEdit] = React.useState<NoteType>({
+  const [dialogDelete, setdialogDelete] = React.useState(false);
+  const [selectedNote, setselectedNote] = React.useState<NoteType>({
     id: Note.id,
     detail: Note.detail,
     description: Note.description
   });
 
   const handleClickOpenEdit = () => {
+    setdialogDelete(false);
     setOpen(true);
   };
 
   const handleClickOpenDelete = () => {
+    setdialogDelete(true);
     setOpen(true);
   };
 
@@ -30,8 +33,13 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit }) => {
     setOpen(false);
   };
 
+  const handleDelete = () => {
+    actionDelete(selectedNote);
+    setOpen(false);
+  };
+
   const handleEdit = () => {
-    actionEdit(noteToEdit);
+    actionEdit(selectedNote);
     setOpen(false);
   };
 
@@ -45,36 +53,71 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit }) => {
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>ID: {Note.id}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>{`Você esta editando o recado "${Note.detail}"`}</DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            value={noteToEdit.detail}
-            onChange={ev => {
-              setNoteToEdit({ id: Note.id, detail: ev.target.value, description: noteToEdit.description });
-            }}
-            label="Detalhes"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            value={noteToEdit.description}
-            onChange={ev => {
-              setNoteToEdit({ id: Note.id, detail: noteToEdit.detail, description: ev.target.value });
-            }}
-            label="Detalhes"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancelar</Button>
-          <Button onClick={handleEdit}>Confirmar</Button>
-        </DialogActions>
+        {!dialogDelete && (
+          <>
+            <DialogContent>
+              <DialogContentText>{`Você esta editando o recado "${Note.detail}"`}</DialogContentText>
+              <TextField
+                autoFocus
+                margin="dense"
+                value={selectedNote.detail}
+                onChange={ev => {
+                  setselectedNote({ id: Note.id, detail: ev.target.value, description: selectedNote.description });
+                }}
+                label="Detalhes"
+                type="text"
+                fullWidth
+                variant="standard"
+              />
+              <TextField
+                margin="dense"
+                value={selectedNote.description}
+                onChange={ev => {
+                  setselectedNote({ id: Note.id, detail: selectedNote.detail, description: ev.target.value });
+                }}
+                label="Detalhes"
+                type="text"
+                fullWidth
+                variant="standard"
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancelar</Button>
+              <Button onClick={handleEdit}>Confirmar</Button>
+            </DialogActions>
+          </>
+        )}
+
+        {dialogDelete && (
+          <>
+            {' '}
+            <DialogContent>
+              <DialogContentText>{`Tem certeza que deseja excluir o recado "${Note.detail}"?`}</DialogContentText>
+              <TextField
+                disabled
+                margin="dense"
+                value={selectedNote.detail}
+                label="Detalhes"
+                type="text"
+                fullWidth
+                variant="standard"
+              />
+              <TextField
+                disabled
+                margin="dense"
+                value={selectedNote.description}
+                label="Detalhes"
+                type="text"
+                fullWidth
+                variant="standard"
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancelar</Button>
+              <Button onClick={handleDelete}>Deletar</Button>
+            </DialogActions>
+          </>
+        )}
       </Dialog>
     </div>
   );

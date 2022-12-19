@@ -72,8 +72,8 @@ const Notes: React.FC = () => {
     setSave(true);
   };
 
-  const HandleDeleteNote = (noteID: number) => {
-    dispatch(deleteOneNote(noteID));
+  const handleDeleteConfirm = (noteToDelete: NoteType) => {
+    dispatch(deleteOneNote(noteToDelete.id));
     setSave(true);
   };
 
@@ -144,15 +144,8 @@ const Notes: React.FC = () => {
                 <br />
                 {item.description}
               </p>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  HandleDeleteNote(item.id);
-                }}
-              >
-                DELETE
-              </Button>
-              <DialogAction actionEdit={handleEditConfirm} Note={item} />
+
+              <DialogAction actionEdit={handleEditConfirm} actionDelete={handleDeleteConfirm} Note={item} />
             </div>
           );
         })}
