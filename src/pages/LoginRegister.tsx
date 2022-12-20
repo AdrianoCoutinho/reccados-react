@@ -1,4 +1,4 @@
-import { TextField, Button, Checkbox } from '@mui/material';
+import { TextField, Button, Checkbox, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserType } from '../types';
@@ -92,78 +92,82 @@ const LoginRegister: React.FC = () => {
 
   return (
     <React.Fragment>
-      <h1>Contact</h1>
-      <p>Esta é a Contact</p>
-      <TextField
-        label="Username"
-        value={user.username}
-        onChange={ev =>
-          setUser({
-            username: ev.target.value,
-            password: user.password,
-            repassword: user.password,
-            notes: user.notes
-          })
-        }
-        variant="filled"
-      />
-      <br />
-      <TextField
-        label="Password"
-        value={user.password}
-        onChange={ev =>
-          setUser({
-            username: user.username,
-            password: ev.target.value,
-            repassword: user.repassword,
-            notes: user.notes
-          })
-        }
-        variant="filled"
-      />
-      <br />
-      {pathName === '/register' && (
-        <>
+      <Grid container>
+        <Grid item xs={12}>
+          <h1>Contact</h1>
+          <p>Esta é a Contact</p>
           <TextField
-            label="Repeat password"
-            value={user.repassword}
+            label="Username"
+            value={user.username}
             onChange={ev =>
               setUser({
-                username: user.username,
+                username: ev.target.value,
                 password: user.password,
-                notes: user.notes,
-                repassword: ev.target.value
+                repassword: user.password,
+                notes: user.notes
               })
             }
             variant="filled"
           />
-          <div>
-            Já possui conta?
-            <a style={{ color: 'red' }} onClick={() => navigate('/')}>
-              Login
-            </a>
-          </div>
-        </>
-      )}
-      {pathName === '/' && (
-        <>
-          <Checkbox checked={logged} onChange={handleChangeCheckBox} />
-          Manter login?
-        </>
-      )}
+          <br />
+          <TextField
+            label="Password"
+            value={user.password}
+            onChange={ev =>
+              setUser({
+                username: user.username,
+                password: ev.target.value,
+                repassword: user.repassword,
+                notes: user.notes
+              })
+            }
+            variant="filled"
+          />
+          <br />
+          {pathName === '/register' && (
+            <>
+              <TextField
+                label="Repeat password"
+                value={user.repassword}
+                onChange={ev =>
+                  setUser({
+                    username: user.username,
+                    password: user.password,
+                    notes: user.notes,
+                    repassword: ev.target.value
+                  })
+                }
+                variant="filled"
+              />
+              <div>
+                Já possui conta?
+                <a style={{ color: 'red' }} onClick={() => navigate('/')}>
+                  Login
+                </a>
+              </div>
+            </>
+          )}
+          {pathName === '/' && (
+            <>
+              <Checkbox checked={logged} onChange={handleChangeCheckBox} />
+              Manter login?
+            </>
+          )}
 
-      <br />
-      <Button variant="contained" onClick={ValidatContact}>
-        {pathName == '/' ? 'Entrar' : 'Registrar'}
-      </Button>
-      {pathName === '/' && (
-        <>
-          <br /> Não possui conta?
-          <a style={{ color: 'red' }} onClick={() => navigate('/register')}>
-            Registra-se
-          </a>
-        </>
-      )}
+          <br />
+          <Button variant="contained" onClick={ValidatContact}>
+            {pathName == '/' ? 'Entrar' : 'Registrar'}
+          </Button>
+          {pathName === '/' && (
+            <>
+              <br /> Não possui conta?
+              <a style={{ color: 'red' }} onClick={() => navigate('/register')}>
+                Registra-se
+              </a>
+            </>
+          )}
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 };

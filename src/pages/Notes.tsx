@@ -134,11 +134,11 @@ const Notes: React.FC = () => {
       <Paper sx={{ backgroundColor: '#303030' }}>
         <br />
 
-        {noteData.map((item, index) => {
+        {noteData.map(item => {
           return (
-            <div key={index}>
+            <div key={item.id}>
               <p>
-                ID: {index}
+                ID: {item.id}
                 <br />
                 {item.detail}
                 <br />

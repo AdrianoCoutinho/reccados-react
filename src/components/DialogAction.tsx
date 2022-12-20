@@ -20,6 +20,7 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
   });
 
   const handleClickOpenEdit = () => {
+    setselectedNote({ id: Note.id, detail: Note.detail, description: selectedNote.description });
     setdialogDelete(false);
     setOpen(true);
   };
@@ -34,7 +35,7 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
   };
 
   const handleDelete = () => {
-    actionDelete(selectedNote);
+    actionDelete(Note);
     setOpen(false);
   };
 
@@ -90,13 +91,15 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
 
         {dialogDelete && (
           <>
-            {' '}
             <DialogContent>
               <DialogContentText>{`Tem certeza que deseja excluir o recado "${Note.detail}"?`}</DialogContentText>
               <TextField
                 disabled
                 margin="dense"
                 value={selectedNote.detail}
+                onChange={ev => {
+                  setselectedNote({ id: Note.id, detail: ev.target.value, description: selectedNote.description });
+                }}
                 label="Detalhes"
                 type="text"
                 fullWidth
@@ -106,6 +109,9 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
                 disabled
                 margin="dense"
                 value={selectedNote.description}
+                onChange={ev => {
+                  setselectedNote({ id: Note.id, detail: selectedNote.detail, description: ev.target.value });
+                }}
                 label="Detalhes"
                 type="text"
                 fullWidth
