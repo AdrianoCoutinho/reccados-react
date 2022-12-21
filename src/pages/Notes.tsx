@@ -131,6 +131,7 @@ const Notes: React.FC = () => {
       </Button>
       <br />
       <br />
+
       <Paper sx={{ backgroundColor: '#303030' }}>
         <br />
 

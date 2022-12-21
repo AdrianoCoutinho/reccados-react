@@ -1,10 +1,11 @@
-import { TextField, Button, Checkbox, Grid } from '@mui/material';
+import { TextField, Button, Checkbox, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserType } from '../types';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addManyUser, addOneUser } from '../store/modules/UserSlice';
 import { useLocation } from 'react-router-dom';
+import { Link } from '../components';
 
 const LoginRegister: React.FC = () => {
   const navigate = useNavigate();
@@ -27,6 +28,9 @@ const LoginRegister: React.FC = () => {
   useEffect(() => {
     if (loggedUser() != '') {
       return navigate('/notes');
+    }
+    if (usersData() != '{}') {
+      dispatch(addManyUser(usersData()));
     }
   }, []);
 
@@ -79,12 +83,6 @@ const LoginRegister: React.FC = () => {
   };
 
   useEffect(() => {
-    if (usersData() != '{}') {
-      dispatch(addManyUser(usersData()));
-    }
-  }, []);
-
-  useEffect(() => {
     if (toSave) {
       localStorage.setItem('userData', JSON.stringify(userData.entities));
     }
@@ -92,12 +90,37 @@ const LoginRegister: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Grid container>
-        <Grid item xs={12}>
-          <h1>Contact</h1>
-          <p>Esta é a Contact</p>
+      <Grid
+        spacing={2}
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        sx={{
+          maxWidth: '500px',
+          backgroundColor: '#ffffff',
+
+          paddingBottom: '100px',
+          borderRadius: '10px'
+        }}
+      >
+        <Grid
+          item
+          xs={12}
+          sx={{
+            borderTopLeftRadius: '10px',
+            borderTopRightRadius: '10px',
+            backgroundImage: 'url(/images/img-header-login.jpeg)',
+            backgroundSize: 'cover'
+          }}
+        >
+          <Typography variant="h3" gutterBottom sx={{ padding: '30px', color: 'white' }}>
+            {pathName == '/' ? 'LOGIN' : 'REGISTRO'}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sx={{ mt: '50px' }}>
           <TextField
-            label="Username"
+            label="Usuário"
             value={user.username}
             onChange={ev =>
               setUser({
@@ -107,11 +130,12 @@ const LoginRegister: React.FC = () => {
                 notes: user.notes
               })
             }
-            variant="filled"
+            variant="outlined"
           />
-          <br />
+        </Grid>
+        <Grid item xs={12}>
           <TextField
-            label="Password"
+            label="Senha"
             value={user.password}
             onChange={ev =>
               setUser({
@@ -121,9 +145,10 @@ const LoginRegister: React.FC = () => {
                 notes: user.notes
               })
             }
-            variant="filled"
+            variant="outlined"
           />
-          <br />
+        </Grid>
+        <Grid item xs={12}>
           {pathName === '/register' && (
             <>
               <TextField
@@ -139,31 +164,31 @@ const LoginRegister: React.FC = () => {
                 }
                 variant="filled"
               />
-              <div>
-                Já possui conta?
-                <a style={{ color: 'red' }} onClick={() => navigate('/')}>
-                  Login
-                </a>
-              </div>
             </>
           )}
+        </Grid>
+        <Grid item xs={12} sx={{ mt: '-20px', mb: '-10px' }}>
           {pathName === '/' && (
             <>
               <Checkbox checked={logged} onChange={handleChangeCheckBox} />
               Manter login?
             </>
           )}
+        </Grid>
 
-          <br />
+        <Grid item xs={12}>
           <Button variant="contained" onClick={ValidatContact}>
             {pathName == '/' ? 'Entrar' : 'Registrar'}
           </Button>
-          {pathName === '/' && (
+        </Grid>
+        <Grid item xs={12}>
+          {pathName == '/' ? (
             <>
-              <br /> Não possui conta?
-              <a style={{ color: 'red' }} onClick={() => navigate('/register')}>
-                Registra-se
-              </a>
+              Não tem conta? <Link to="/register" name="Registrar-se" />
+            </>
+          ) : (
+            <>
+              Já tem uma conta? <Link to="/" name="fazer login" />
             </>
           )}
         </Grid>
