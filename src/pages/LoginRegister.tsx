@@ -43,7 +43,7 @@ const LoginRegister: React.FC = () => {
   };
 
   const handleRegisterContact = () => {
-    const userExists = usersData()[user.username];
+    const userExists = usersData()[user.username.toLowerCase()];
 
     if (user.username === '' || user.password === '' || user.repassword === '') {
       return alert('Preencha os campos');
@@ -56,7 +56,7 @@ const LoginRegister: React.FC = () => {
     }
 
     const newUser: UserType = {
-      username: user.username,
+      username: user.username.toLowerCase(),
       password: user.password,
       notes: user.notes
     };
@@ -67,10 +67,10 @@ const LoginRegister: React.FC = () => {
 
   const handleLoginContact = () => {
     const savedUsers = usersData();
-    if (savedUsers[user.username] && savedUsers[user.username].password === user.password) {
-      sessionStorage.setItem('ReccadosLoggedUser', user.username);
+    if (savedUsers[user.username.toLowerCase()] && savedUsers[user.username.toLowerCase()].password === user.password) {
+      sessionStorage.setItem('ReccadosLoggedUser', user.username.toLowerCase());
       if (logged) {
-        localStorage.setItem('ReccadosLoggedUser', user.username);
+        localStorage.setItem('ReccadosLoggedUser', user.username.toLowerCase());
       }
       return navigate('/notes');
     } else {
@@ -148,33 +148,30 @@ const LoginRegister: React.FC = () => {
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={12}>
-          {pathName === '/register' && (
-            <>
-              <TextField
-                label="Repeat password"
-                value={user.repassword}
-                onChange={ev =>
-                  setUser({
-                    username: user.username,
-                    password: user.password,
-                    notes: user.notes,
-                    repassword: ev.target.value
-                  })
-                }
-                variant="filled"
-              />
-            </>
-          )}
-        </Grid>
-        <Grid item xs={12} sx={{ mt: '-20px', mb: '-10px' }}>
-          {pathName === '/' && (
-            <>
-              <Checkbox checked={logged} onChange={handleChangeCheckBox} />
-              Manter login?
-            </>
-          )}
-        </Grid>
+        {pathName === '/register' && (
+          <Grid item xs={12}>
+            <TextField
+              label="Repeat password"
+              value={user.repassword}
+              onChange={ev =>
+                setUser({
+                  username: user.username,
+                  password: user.password,
+                  notes: user.notes,
+                  repassword: ev.target.value
+                })
+              }
+              variant="outlined"
+            />
+          </Grid>
+        )}
+
+        {pathName === '/' && (
+          <Grid item xs={12} sx={{ mt: '-20px', mb: '-10px' }}>
+            <Checkbox checked={logged} onChange={handleChangeCheckBox} />
+            Manter login?
+          </Grid>
+        )}
 
         <Grid item xs={12}>
           <Button variant="contained" onClick={ValidatContact}>
@@ -188,7 +185,7 @@ const LoginRegister: React.FC = () => {
             </>
           ) : (
             <>
-              Já tem uma conta? <Link to="/" name="fazer login" />
+              Já tem uma conta? <Link to="/" name="Fazer login" />
             </>
           )}
         </Grid>

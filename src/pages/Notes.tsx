@@ -37,7 +37,7 @@ const Notes: React.FC = () => {
     if (loggedUser() === '') {
       return navigate('/');
     }
-    const savedNotes = usersData()[loggedUser()].notes;
+    const savedNotes = usersData()[loggedUser().toLowerCase()].notes;
     dispatch(addManyNote(savedNotes));
   }, []);
 
