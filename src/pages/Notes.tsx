@@ -74,6 +74,14 @@ const Notes: React.FC = () => {
     setSave(true);
   };
 
+  const HandleClearNotes = () => {
+    setNote({
+      id: 0,
+      detail: '',
+      description: ''
+    });
+  };
+
   const handleEditConfirm = (noteToEdit: NoteType) => {
     dispatch(
       updateOneNote({
@@ -151,7 +159,7 @@ const Notes: React.FC = () => {
             </Button>
           </Grid>
           <Grid item xs={6}>
-            <Button fullWidth variant="contained" onClick={HandleAddNote}>
+            <Button fullWidth variant="contained" onClick={HandleClearNotes}>
               LIMPAR
             </Button>
           </Grid>
