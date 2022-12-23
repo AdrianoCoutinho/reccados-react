@@ -1,4 +1,4 @@
-import { TextField, Button, Checkbox, Grid, Typography } from '@mui/material';
+import { TextField, Button, Checkbox, Grid, Typography, Container } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserType } from '../types';
@@ -90,107 +90,118 @@ const LoginRegister: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Grid
-        spacing={2}
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
+      <Container
+        maxWidth={false}
         sx={{
-          maxWidth: '500px',
-          backgroundColor: '#ffffff',
-
-          paddingBottom: '100px',
-          borderRadius: '10px'
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh'
         }}
       >
         <Grid
-          item
-          xs={12}
+          spacing={2}
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
           sx={{
-            borderTopLeftRadius: '10px',
-            borderTopRightRadius: '10px',
-            backgroundImage: 'url(/images/img-header-login.jpeg)',
-            backgroundSize: 'cover'
+            maxWidth: '500px',
+            backgroundColor: '#ffffff',
+
+            paddingBottom: '100px',
+            borderRadius: '10px'
           }}
         >
-          <Typography variant="h3" gutterBottom sx={{ padding: '30px', color: 'white' }}>
-            {pathName == '/' ? 'LOGIN' : 'REGISTRO'}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sx={{ mt: '50px' }}>
-          <TextField
-            label="Usuário"
-            value={user.username}
-            onChange={ev =>
-              setUser({
-                username: ev.target.value,
-                password: user.password,
-                repassword: user.password,
-                notes: user.notes
-              })
-            }
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Senha"
-            value={user.password}
-            onChange={ev =>
-              setUser({
-                username: user.username,
-                password: ev.target.value,
-                repassword: user.repassword,
-                notes: user.notes
-              })
-            }
-            variant="outlined"
-            type="password"
-          />
-        </Grid>
-        {pathName === '/register' && (
-          <Grid item xs={12}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              borderTopLeftRadius: '10px',
+              borderTopRightRadius: '10px',
+              backgroundImage: 'url(/images/img-header-login.jpeg)',
+              backgroundSize: 'cover'
+            }}
+          >
+            <Typography variant="h3" gutterBottom sx={{ padding: '30px', color: 'white' }}>
+              {pathName == '/' ? 'LOGIN' : 'REGISTRO'}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sx={{ mt: '50px' }}>
             <TextField
-              label="Repeat password"
-              value={user.repassword}
+              label="Usuário"
+              value={user.username}
               onChange={ev =>
                 setUser({
-                  username: user.username,
+                  username: ev.target.value,
                   password: user.password,
-                  notes: user.notes,
-                  repassword: ev.target.value
+                  repassword: user.password,
+                  notes: user.notes
                 })
               }
               variant="outlined"
             />
           </Grid>
-        )}
-
-        {pathName === '/' && (
-          <Grid item xs={12} sx={{ mt: '-20px', mb: '-10px' }}>
-            <Checkbox checked={logged} onChange={handleChangeCheckBox} />
-            Manter login?
+          <Grid item xs={12}>
+            <TextField
+              label="Senha"
+              value={user.password}
+              onChange={ev =>
+                setUser({
+                  username: user.username,
+                  password: ev.target.value,
+                  repassword: user.repassword,
+                  notes: user.notes
+                })
+              }
+              variant="outlined"
+              type="password"
+            />
           </Grid>
-        )}
-
-        <Grid item xs={12}>
-          <Button variant="contained" onClick={ValidatContact}>
-            {pathName == '/' ? 'Entrar' : 'Registrar'}
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          {pathName == '/' ? (
-            <>
-              Não tem conta? <Link to="/register" name="Registrar-se" />
-            </>
-          ) : (
-            <>
-              Já tem uma conta? <Link to="/" name="Fazer login" />
-            </>
+          {pathName === '/register' && (
+            <Grid item xs={12}>
+              <TextField
+                label="Repeat password"
+                value={user.repassword}
+                onChange={ev =>
+                  setUser({
+                    username: user.username,
+                    password: user.password,
+                    notes: user.notes,
+                    repassword: ev.target.value
+                  })
+                }
+                variant="outlined"
+              />
+            </Grid>
           )}
+
+          {pathName === '/' && (
+            <Grid item xs={12} sx={{ mt: '-20px', mb: '-10px' }}>
+              <Checkbox checked={logged} onChange={handleChangeCheckBox} />
+              Manter login?
+            </Grid>
+          )}
+
+          <Grid item xs={12}>
+            <Button variant="contained" onClick={ValidatContact}>
+              {pathName == '/' ? 'Entrar' : 'Registrar'}
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            {pathName == '/' ? (
+              <>
+                Não tem conta? <Link to="/register" name="Registrar-se" />
+              </>
+            ) : (
+              <>
+                Já tem uma conta? <Link to="/" name="Fazer login" />
+              </>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
+      </Container>
     </React.Fragment>
   );
 };

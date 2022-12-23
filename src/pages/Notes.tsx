@@ -1,17 +1,4 @@
-import {
-  Button,
-  Grid,
-  Paper,
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  tableCellClasses,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField
-} from '@mui/material';
+import { Button, Card, CardActions, CardContent, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DialogAction } from '../components';
@@ -37,38 +24,6 @@ const Notes: React.FC = () => {
     detail: '',
     description: ''
   });
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14
-    }
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover
-    },
-
-    '&:last-child td, &:last-child th': {
-      border: 0
-    }
-  }));
-
-  function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-    return { name, calories, fat, carbs, protein };
-  }
-
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9)
-  ];
 
   const usersData = () => {
     return JSON.parse(localStorage.getItem('userData') || '[]');
@@ -97,6 +52,18 @@ const Notes: React.FC = () => {
   const HandleAddNote = () => {
     if (note.detail === '' || note.description === '') {
       return alert('Digite algo nos campos!');
+    }
+    if (note.detail.length < 5) {
+      return alert('Digite ao menos 5 caracteres nos detalhes!');
+    }
+    if (note.description.length < 20) {
+      return alert('Digite ao menos 20 caracteres na descrição!');
+    }
+    if (note.detail.length > 20) {
+      return alert('Você ultrapassou o limite de 20 caracteres nos detalhes!');
+    }
+    if (note.description.length > 494) {
+      return alert('Você ultrapassou o limite de 494 caracteres na descrição!');
     }
     const newNote: NoteType = {
       id: Math.floor(Date.now() / 1000),
@@ -137,91 +104,89 @@ const Notes: React.FC = () => {
 
   return (
     <React.Fragment>
-      <h1>Notes</h1>
-      <p>Esta é a Notes</p>
-      <TextField
-        label="Detail"
-        value={note.detail}
-        onChange={ev => {
-          setNote({
-            id: note.id,
-            detail: ev.target.value,
-            description: note.description
-          });
-        }}
-        variant="filled"
-      />
-      <br />
-
-      <TextField
-        label="Description"
-        value={note.description}
-        onChange={ev => {
-          setNote({
-            id: note.id,
-            detail: note.detail,
-            description: ev.target.value
-          });
-        }}
-        variant="filled"
-      />
-      <br />
-      <Button variant="contained" onClick={HandleAddNote}>
-        Save
-      </Button>
-      <br />
-      <br />
-      <Button variant="contained" onClick={HandleLogout}>
-        Logout
-      </Button>
-      <br />
-      <br />
-
-      <Paper sx={{ backgroundColor: '#303030' }}>
-        <br />
-
-        {noteData.map(item => {
-          return (
-            <div key={item.id}>
-              <p>
-                ID: {item.id}
-                <br />
-                {item.detail}
-                <br />
-                {item.description}
-              </p>
-
-              <DialogAction actionEdit={handleEditConfirm} actionDelete={handleDeleteConfirm} Note={item} />
-            </div>
-          );
-        })}
-        <br />
-      </Paper>
-      <Grid container>
-        <Grid item xs={12}>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Detalhe</StyledTableCell>
-                  <StyledTableCell align="right">Descrição</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map(row => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+      <Container maxWidth={false} sx={{ backgroundColor: '#ebeeef', height: 'auto', paddingBottom: '10px' }}>
+        <Grid container rowSpacing={1} columnSpacing={2}>
+          <Grid item xs={12}>
+            <Button variant="contained" onClick={HandleLogout}>
+              Logout
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              fullWidth
+              label="Detalhes"
+              inputProps={{ maxLength: 20 }}
+              value={note.detail}
+              onChange={ev => {
+                setNote({
+                  id: note.id,
+                  detail: ev.target.value,
+                  description: note.description
+                });
+              }}
+              variant="filled"
+            />
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              fullWidth
+              multiline
+              rows={2}
+              label="Descrição"
+              inputProps={{ maxLength: 494 }}
+              value={note.description}
+              onChange={ev => {
+                setNote({
+                  id: note.id,
+                  detail: note.detail,
+                  description: ev.target.value
+                });
+              }}
+              variant="filled"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Button fullWidth variant="contained" color="success" onClick={HandleAddNote}>
+              SALVAR
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button fullWidth variant="contained" onClick={HandleAddNote}>
+              LIMPAR
+            </Button>
+          </Grid>
+          {noteData
+            .slice(0)
+            .reverse()
+            .map(item => (
+              <Grid key={item.id} item xs={12} sm={6} md={4} lg={3}>
+                <Card sx={{ maxHeight: 430 }}>
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
+                      title={item.detail}
+                    >
+                      {item.detail}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ minHeight: '260px', wordWrap: 'break-word' }}
+                    >
+                      {item.description}
+                    </Typography>
+                  </CardContent>
+                  <CardActions sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                    <DialogAction actionEdit={handleEditConfirm} actionDelete={handleDeleteConfirm} Note={item} />
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
         </Grid>
-      </Grid>
+      </Container>
     </React.Fragment>
   );
 };

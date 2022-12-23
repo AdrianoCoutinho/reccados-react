@@ -49,7 +49,7 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
       <Button variant="outlined" onClick={handleClickOpenEdit}>
         Editar
       </Button>
-      <Button variant="outlined" onClick={handleClickOpenDelete}>
+      <Button variant="outlined" onClick={handleClickOpenDelete} sx={{ ml: '5px' }}>
         Excluir
       </Button>
       <Dialog open={open} onClose={handleClose}>
