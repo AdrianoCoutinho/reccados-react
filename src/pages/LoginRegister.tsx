@@ -146,6 +146,7 @@ const LoginRegister: React.FC = () => {
               })
             }
             variant="outlined"
+            type="password"
           />
         </Grid>
         {pathName === '/register' && (
