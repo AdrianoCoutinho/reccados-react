@@ -158,7 +158,7 @@ const Notes: React.FC = () => {
               SALVAR
             </Button>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} sx={{ mb: '20px' }}>
             <Button fullWidth variant="contained" onClick={HandleClearNotes}>
               LIMPAR
             </Button>
@@ -175,14 +175,14 @@ const Notes: React.FC = () => {
                       variant="h5"
                       component="div"
                       sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
-                      title={item.detail}
+                      title={`Detalhes: ${item.detail}`}
                     >
                       {item.detail}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                      sx={{ minHeight: '260px', wordWrap: 'break-word' }}
+                      sx={{ minHeight: '282.66px', wordWrap: 'break-word' }}
                     >
                       {item.description}
                     </Typography>

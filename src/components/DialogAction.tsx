@@ -6,6 +6,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 import { NoteType } from '../types';
 import NoteProps from '../types/NoteProps';
@@ -40,16 +42,31 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
   };
 
   const handleEdit = () => {
+    if (selectedNote.detail === '' || selectedNote.description === '') {
+      return alert('Digite algo nos campos!');
+    }
+    if (selectedNote.detail.length < 5) {
+      return alert('Digite ao menos 5 caracteres nos detalhes!');
+    }
+    if (selectedNote.description.length < 20) {
+      return alert('Digite ao menos 20 caracteres na descrição!');
+    }
+    if (selectedNote.detail.length > 20) {
+      return alert('Você ultrapassou o limite de 20 caracteres nos detalhes!');
+    }
+    if (selectedNote.description.length > 494) {
+      return alert('Você ultrapassou o limite de 494 caracteres na descrição!');
+    }
     actionEdit(selectedNote);
     setOpen(false);
   };
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpenEdit}>
+      <Button variant="outlined" startIcon={<EditIcon />} onClick={handleClickOpenEdit}>
         Editar
       </Button>
-      <Button variant="outlined" onClick={handleClickOpenDelete} sx={{ ml: '5px' }}>
+      <Button variant="outlined" endIcon={<DeleteIcon />} onClick={handleClickOpenDelete} sx={{ ml: '5px' }}>
         Excluir
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -60,6 +77,7 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
               <DialogContentText>{`Você esta editando o recado "${Note.detail}"`}</DialogContentText>
               <TextField
                 autoFocus
+                inputProps={{ maxLength: 20 }}
                 margin="dense"
                 value={selectedNote.detail}
                 onChange={ev => {
@@ -72,6 +90,7 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
               />
               <TextField
                 margin="dense"
+                inputProps={{ maxLength: 494 }}
                 value={selectedNote.description}
                 onChange={ev => {
                   setselectedNote({ id: Note.id, detail: selectedNote.detail, description: ev.target.value });
