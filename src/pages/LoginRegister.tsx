@@ -162,7 +162,8 @@ const LoginRegister: React.FC = () => {
           {pathName === '/register' && (
             <Grid item xs={12}>
               <TextField
-                label="Repeat password"
+                label="Repita a senha"
+                type="password"
                 value={user.repassword}
                 onChange={ev =>
                   setUser({

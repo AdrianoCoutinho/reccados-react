@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DialogAction } from '../components';
+import { AppBarHeader, DialogAction } from '../components';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   addManyNote,
@@ -112,13 +112,14 @@ const Notes: React.FC = () => {
 
   return (
     <React.Fragment>
+      <AppBarHeader
+        titleHeader={'Reccados'}
+        actionLogout={HandleLogout}
+        logedUser={loggedUser()}
+        noteLength={noteData.length}
+      />
       <Container maxWidth={false} sx={{ backgroundColor: '#ebeeef', height: 'auto', paddingBottom: '10px' }}>
         <Grid container rowSpacing={1} columnSpacing={2}>
-          <Grid item xs={12}>
-            <Button variant="contained" onClick={HandleLogout}>
-              Logout
-            </Button>
-          </Grid>
           <Grid item xs={12} sm={12}>
             <TextField
               fullWidth

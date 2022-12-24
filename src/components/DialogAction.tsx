@@ -63,10 +63,16 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
 
   return (
     <div>
-      <Button variant="outlined" startIcon={<EditIcon />} onClick={handleClickOpenEdit}>
+      <Button variant="outlined" color="primary" startIcon={<EditIcon />} onClick={handleClickOpenEdit}>
         Editar
       </Button>
-      <Button variant="outlined" endIcon={<DeleteIcon />} onClick={handleClickOpenDelete} sx={{ ml: '5px' }}>
+      <Button
+        variant="outlined"
+        color="error"
+        endIcon={<DeleteIcon />}
+        onClick={handleClickOpenDelete}
+        sx={{ ml: '5px' }}
+      >
         Excluir
       </Button>
       <Dialog open={open} onClose={handleClose}>
@@ -77,6 +83,8 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
               <DialogContentText>{`Você esta editando o recado "${Note.detail}"`}</DialogContentText>
               <TextField
                 autoFocus
+                color="warning"
+                focused
                 inputProps={{ maxLength: 20 }}
                 margin="dense"
                 value={selectedNote.detail}
@@ -89,6 +97,8 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
                 variant="standard"
               />
               <TextField
+                color="warning"
+                focused
                 margin="dense"
                 inputProps={{ maxLength: 494 }}
                 value={selectedNote.description}
@@ -103,7 +113,9 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancelar</Button>
-              <Button onClick={handleEdit}>Confirmar</Button>
+              <Button color="success" onClick={handleEdit}>
+                Confirmar
+              </Button>
             </DialogActions>
           </>
         )}
