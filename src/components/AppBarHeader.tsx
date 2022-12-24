@@ -9,15 +9,9 @@ import Menu from '@mui/material/Menu';
 import { AccountCircle } from '@mui/icons-material';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
+import { AppBarHeaderProps } from '../types';
 
-interface ComponetNameProps {
-  titleHeader: string;
-  logedUser: string;
-  noteLength: number;
-  actionLogout: () => void;
-}
-
-const AppBarHeader: React.FC<ComponetNameProps> = ({ titleHeader, actionLogout, logedUser, noteLength }) => {
+const AppBarHeader: React.FC<AppBarHeaderProps> = ({ titleHeader, actionLogout, logedUser, noteLength }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClose = () => {
     setAnchorEl(null);
@@ -33,11 +27,12 @@ const AppBarHeader: React.FC<ComponetNameProps> = ({ titleHeader, actionLogout, 
             {titleHeader}
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
-          <div>
+          <Typography variant="body1">
             <Badge badgeContent={noteLength} color="error">
               <MailIcon color="action" />
             </Badge>
             <IconButton
+              sx={{ marginLeft: '15px' }}
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -65,7 +60,7 @@ const AppBarHeader: React.FC<ComponetNameProps> = ({ titleHeader, actionLogout, 
               <MenuItem onClick={handleClose}>{logedUser.toUpperCase()}</MenuItem>
               <MenuItem onClick={actionLogout}>Sair</MenuItem>
             </Menu>
-          </div>
+          </Typography>
         </Toolbar>
       </AppBar>
     </Box>
