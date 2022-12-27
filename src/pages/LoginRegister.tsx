@@ -75,7 +75,7 @@ const LoginRegister: React.FC = () => {
       id: Math.floor(Date.now() / 1000),
       detail: 'Primeiro recado',
       description:
-        'Este é o seu primeiro recado, nos detalhes utilize no minimo 5 caracteres e no máximo 20. Na descrição utilize no mínimo 20 e no máximo 494 caracteres.'
+        'Este é o seu primeiro recado, nos detalhes utilize no mínimo 5 e no máximo 20 caracteres. Na descrição utilize no mínimo 20 e no máximo 494 caracteres.'
     };
     dispatch(addOneNote(newNote));
     setToSave(true);
