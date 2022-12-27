@@ -1,12 +1,13 @@
 import { TextField, Button, Checkbox, Grid, Typography, Container } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserType } from '../types';
+import { NoteType, UserType } from '../types';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addManyUser, addOneUser } from '../store/modules/UserSlice';
 import { useLocation } from 'react-router-dom';
 import { Link, Snackbars } from '../components';
 import { setMessage } from '../store/modules/SnackBarsSlice';
+import { addOneNote } from '../store/modules/NoteSlice';
 
 const LoginRegister: React.FC = () => {
   const navigate = useNavigate();
@@ -70,6 +71,13 @@ const LoginRegister: React.FC = () => {
       notes: user.notes
     };
     dispatch(addOneUser(newUser));
+    const newNote: NoteType = {
+      id: Math.floor(Date.now() / 1000),
+      detail: 'Primeiro recado',
+      description:
+        'Este é o seu primeiro recado, nos detalhes utilize no minimo 5 caracteres e no máximo 20. Na descrição utilize no mínimo 20 e no máximo 494 caracteres.'
+    };
+    dispatch(addOneNote(newNote));
     setToSave(true);
     return navigate('/');
   };
