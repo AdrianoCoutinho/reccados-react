@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -22,10 +21,6 @@ const SnackBars: React.FC = () => {
     }
   }, [SnackBarsRedux]);
 
-  const handleClick = () => {
-    setOpen(true);
-  };
-
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
@@ -37,9 +32,6 @@ const SnackBars: React.FC = () => {
 
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
-      <Button variant="outlined" onClick={handleClick}>
-        Open success snackbar
-      </Button>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert
           onClose={handleClose}
