@@ -109,9 +109,9 @@ const LoginRegister: React.FC = () => {
           sx={{
             maxWidth: '500px',
             backgroundColor: '#ffffff',
-
             paddingBottom: '100px',
-            borderRadius: '10px'
+            borderRadius: '10px',
+            marginLeft: '0 !important'
           }}
         >
           <Grid

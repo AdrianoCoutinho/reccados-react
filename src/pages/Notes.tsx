@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppBarHeader, DialogAction } from '../components';
+import { AppBarHeader, DialogAction, Snackbars } from '../components';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   addManyNote,
@@ -11,6 +11,7 @@ import {
   selectNotes,
   updateOneNote
 } from '../store/modules/NoteSlice';
+import { setMessage } from '../store/modules/SnackBarsSlice';
 import { NoteType } from '../types';
 
 const Notes: React.FC = () => {
@@ -51,19 +52,23 @@ const Notes: React.FC = () => {
 
   const HandleAddNote = () => {
     if (note.detail === '' || note.description === '') {
-      return alert('Digite algo nos campos!');
+      return dispatch(setMessage({ message: 'Digite algo nos campos!', status: 'error' }));
     }
     if (note.detail.length < 5) {
-      return alert('Digite ao menos 5 caracteres nos detalhes!');
+      return dispatch(setMessage({ message: 'Digite ao menos 5 caracteres nos detalhes!', status: 'error' }));
     }
     if (note.description.length < 20) {
-      return alert('Digite ao menos 20 caracteres na descrição!');
+      return dispatch(setMessage({ message: 'Digite ao menos 20 caracteres na descrição!', status: 'error' }));
     }
     if (note.detail.length > 20) {
-      return alert('Você ultrapassou o limite de 20 caracteres nos detalhes!');
+      return dispatch(
+        setMessage({ message: 'Você ultrapassou o limite de 20 caracteres nos detalhes!', status: 'error' })
+      );
     }
     if (note.description.length > 494) {
-      return alert('Você ultrapassou o limite de 494 caracteres na descrição!');
+      return dispatch(
+        setMessage({ message: 'Você ultrapassou o limite de 494 caracteres na descrição!', status: 'error' })
+      );
     }
     const newNote: NoteType = {
       id: Math.floor(Date.now() / 1000),
@@ -72,6 +77,7 @@ const Notes: React.FC = () => {
     };
     dispatch(addOneNote(newNote));
     setSave(true);
+    dispatch(setMessage({ message: 'Recado adicionado com sucesso!', status: 'success' }));
   };
 
   const HandleClearNotes = () => {
@@ -90,11 +96,13 @@ const Notes: React.FC = () => {
       })
     );
     setSave(true);
+    dispatch(setMessage({ message: 'Recado editado com sucesso!', status: 'success' }));
   };
 
   const handleDeleteConfirm = (noteToDelete: NoteType) => {
     dispatch(deleteOneNote(noteToDelete.id));
     setSave(true);
+    dispatch(setMessage({ message: 'Recado deletado com sucesso!', status: 'success' }));
   };
 
   useEffect(() => {
@@ -120,6 +128,7 @@ const Notes: React.FC = () => {
       />
       <Container maxWidth={false} sx={{ backgroundColor: '#ebeeef', height: 'auto', paddingBottom: '10px' }}>
         <Grid container rowSpacing={1} columnSpacing={2}>
+          <Snackbars />
           <Grid item xs={12} sm={12}>
             <TextField
               fullWidth
@@ -180,6 +189,7 @@ const Notes: React.FC = () => {
                     >
                       {item.detail}
                     </Typography>
+
                     <Typography
                       variant="body2"
                       color="text.secondary"
