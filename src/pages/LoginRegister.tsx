@@ -5,7 +5,7 @@ import { UserType } from '../types';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addManyUser, addOneUser } from '../store/modules/UserSlice';
 import { useLocation } from 'react-router-dom';
-import { Link } from '../components';
+import { Link, Snackbars } from '../components';
 import { setMessage } from '../store/modules/SnackBarsSlice';
 
 const LoginRegister: React.FC = () => {
@@ -47,19 +47,21 @@ const LoginRegister: React.FC = () => {
     const userExists = usersData()[user.username.toLowerCase()];
 
     if (user.username === '' || user.password === '' || user.repassword === '') {
-      return setMessage({ message: 'Preencha os dois campos!', status: 'error' });
+      return dispatch(setMessage({ message: 'Preencha os dois campos!', status: 'error' }));
     }
     if (user.password != user.repassword) {
-      return setMessage({ message: 'As senhas não coincidem!', status: 'error' });
+      return dispatch(setMessage({ message: 'As senhas não coincidem!', status: 'error' }));
     }
     if (userExists) {
-      return setMessage({ message: 'Este usuário já existe!', status: 'error' });
+      return dispatch(setMessage({ message: 'Este usuário já existe!', status: 'error' }));
     }
     if (user.username.length < 5) {
-      return setMessage({ message: 'Utilize um nome de usuário com no mínimo 5 caracteres!', status: 'error' });
+      return dispatch(
+        setMessage({ message: 'Utilize um nome de usuário com no mínimo 5 caracteres!', status: 'error' })
+      );
     }
     if (user.password.length < 6) {
-      return setMessage({ message: 'Utilize uma senha com no mínimo 6 caracteres!', status: 'error' });
+      return dispatch(setMessage({ message: 'Utilize uma senha com no mínimo 6 caracteres!', status: 'error' }));
     }
 
     const newUser: UserType = {
@@ -81,7 +83,7 @@ const LoginRegister: React.FC = () => {
       }
       return navigate('/notes');
     } else {
-      return setMessage({ message: 'Usuário ou senha incorretos!', status: 'error' });
+      return dispatch(setMessage({ message: 'Usuário ou senha incorretos!', status: 'error' }));
     }
   };
 
@@ -107,6 +109,7 @@ const LoginRegister: React.FC = () => {
           height: '100vh'
         }}
       >
+        <Snackbars />
         <Grid
           spacing={2}
           container
