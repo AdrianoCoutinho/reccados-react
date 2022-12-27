@@ -83,7 +83,7 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
               <DialogContentText>{`Você esta editando o recado "${Note.detail}"`}</DialogContentText>
               <TextField
                 autoFocus
-                color="warning"
+                color="info"
                 focused
                 inputProps={{ maxLength: 20 }}
                 margin="dense"
@@ -97,7 +97,7 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
                 variant="standard"
               />
               <TextField
-                color="warning"
+                color="info"
                 focused
                 margin="dense"
                 inputProps={{ maxLength: 494 }}
