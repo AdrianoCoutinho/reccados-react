@@ -11,8 +11,11 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import { NoteType } from '../types';
 import NoteProps from '../types/NoteProps';
+import { setMessage } from '../store/modules/SnackBarsSlice';
+import { useAppDispatch } from '../store/hooks';
 
 const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) => {
+  const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(false);
   const [dialogDelete, setdialogDelete] = React.useState(false);
   const [selectedNote, setselectedNote] = React.useState<NoteType>({
@@ -43,20 +46,25 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
 
   const handleEdit = () => {
     if (selectedNote.detail === '' || selectedNote.description === '') {
-      return alert('Digite algo nos campos!');
+      return dispatch(setMessage({ message: 'Digite algo nos campos!', status: 'error' }));
     }
     if (selectedNote.detail.length < 5) {
-      return alert('Digite ao menos 5 caracteres nos detalhes!');
+      return dispatch(setMessage({ message: 'Digite ao menos 5 caracteres nos detalhes!', status: 'error' }));
     }
     if (selectedNote.description.length < 20) {
-      return alert('Digite ao menos 20 caracteres na descrição!');
+      return dispatch(setMessage({ message: 'Digite ao menos 20 caracteres na descrição!', status: 'error' }));
     }
     if (selectedNote.detail.length > 20) {
-      return alert('Você ultrapassou o limite de 20 caracteres nos detalhes!');
+      return dispatch(
+        setMessage({ message: 'Você ultrapassou o limite de 20 caracteres nos detalhes!', status: 'error' })
+      );
     }
     if (selectedNote.description.length > 494) {
-      return alert('Você ultrapassou o limite de 494 caracteres na descrição!');
+      return dispatch(
+        setMessage({ message: 'Você ultrapassou o limite de 494 caracteres na descrição!', status: 'error' })
+      );
     }
+
     actionEdit(selectedNote);
     setOpen(false);
   };
@@ -105,7 +113,7 @@ const DialogAction: React.FC<NoteProps> = ({ Note, actionEdit, actionDelete }) =
                 onChange={ev => {
                   setselectedNote({ id: Note.id, detail: selectedNote.detail, description: ev.target.value });
                 }}
-                label="Detalhes"
+                label="Descrição"
                 type="text"
                 fullWidth
                 variant="standard"
