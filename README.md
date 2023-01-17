@@ -11,16 +11,16 @@ Módulo FrontEnd III com REACT
 **[Você pode ver o sistema funcionando clicando aqui - https://reccados-react.vercel.app/](https://reccados-react.vercel.app/)**
 
 <p align="center">
-  <img src="https://i.imgur.com/R9w1hOI.png?1" alt="Illustration" title="Recados" height=400/> 
+  <img src="https://i.imgur.com/R9w1hOI.png?1" alt="Recados" title="Recados" height=400/> 
   
 </p>
 
 <p align="center">
-  <img src="https://i.imgur.com/X2ORUbs.png" alt="Illustration" title="Recados" height=400/>
+  <img src="https://i.imgur.com/X2ORUbs.png" alt="Recados" title="Recados" height=400/>
   
 </p>
 <p align="center">
-<img src="https://i.imgur.com/Ekg9xno.png" alt="Illustration" title="Editar" height=400/>
+<img src="https://i.imgur.com/Ekg9xno.png" alt="Editar" title="Editar" height=400/>
 </p>
 
 
@@ -28,8 +28,8 @@ Módulo FrontEnd III com REACT
 ## Lista de recados
 
 <p align="center">
-  <img src="https://i.imgur.com/o7fpHaK.png" alt="Illustration" title="Recados" height=1400/> 
-  
+  <img src="https://i.imgur.com/o7fpHaK.png" alt="Editar" title="Editar" height=1400/> 
+  <img src="https://i.imgur.com/PGLLqaQ.png" alt="Excluir" title="Excluir" height=1400/> 
 </p>
 
 
